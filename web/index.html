@@ -40,7 +40,25 @@
   <script src="flutter.js" defer></script>
 </head>
 <body>
-  <script>
+  <script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+  
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyCziZ_rP2vkvIhcrNiHg0DZBw4sKchlM2w",
+      authDomain: "social-midea-clone.firebaseapp.com",
+      projectId: "social-midea-clone",
+      storageBucket: "social-midea-clone.appspot.com",
+      messagingSenderId: "258537332920",
+      appId: "1:258537332920:web:44b6b1a7e3230cdc4e544d"
+    };
+  
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+  </script>
     window.addEventListener('load', function(ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({

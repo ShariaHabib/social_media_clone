@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "258537332920",
+    "project_id": "social-midea-clone",
+    "storage_bucket": "social-midea-clone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258537332920:android:a534cb6107c8c92b4e544d",
+        "android_client_info": {
+          "package_name": "com.example.social_media_clone"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLTizINWrAl6og_XjQnRu8UyZNIeKde7s"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
