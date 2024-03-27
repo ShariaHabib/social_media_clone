@@ -35,21 +35,22 @@ class _SignUpState extends State<SignUp> {
     if (value!.isEmpty) {
       return "Password cannot be empty";
     } else if (value.length < 8) {
+      return "Password must be at least 8 characters";
+    } else {
       RegExp regex = RegExp(r'^(?=.*[A-Z])(?=.*[!@#$&*])(?=.*[0-9]).{8,}$');
       if (!regex.hasMatch(value)) {
         return "Use 8 or more characters with a mix of letters, numbers & symbols";
       }
-      return "Password must be at least 8 characters";
     }
   }
 
   String? confirmPasswordValidator(String? value) {
     if (value!.isEmpty) {
       return "Confirm Password cannot be empty";
-    } else if (passwordValidator(value) != "") {
-      return passwordValidator(value);
     } else if (value != _password.text) {
       return "Password does not match";
+    } else if (passwordValidator(value) != "") {
+      return passwordValidator(value);
     }
   }
 
