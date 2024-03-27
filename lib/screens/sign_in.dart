@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:social_media_clone/common/constants.dart';
 import 'package:social_media_clone/common/custom_appbar.dart';
 import 'package:social_media_clone/common/custom_button.dart';
@@ -161,8 +162,34 @@ class _SignInState extends State<SignIn> {
             : CustomFilledButton(
                 onPressed: () async {
                   try {
-                    await signInWithEmailPassword();
-                    Navigator.pushNamed(context, '/dashboard');
+                    setState(() {
+                      isLoading = true;
+                    });
+
+                    try {
+                      final vsss = await FirebaseAuth.instance
+                          .signInWithEmailAndPassword(
+                        email: _email.text,
+                        password: _password.text,
+                      );
+
+                      Navigator.pushNamed(context, '/dashboard',
+                          arguments: vsss.user!.uid);
+                    } on FirebaseAuthException catch (e) {
+                      if (e.code == 'user-not-found') {
+                        Fluttertoast.showToast(
+                            msg: 'No user found for that email.');
+                      } else if (e.code == 'invalid-credential') {
+                        Fluttertoast.showToast(
+                            msg: 'Wrong username or password');
+                      } else {
+                        Fluttertoast.showToast(msg: 'Eorror!');
+                      }
+                    } finally {
+                      setState(() {
+                        isLoading = false;
+                      });
+                    }
                   } catch (e) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

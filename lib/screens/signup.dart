@@ -31,7 +31,7 @@ class _SignUpState extends State<SignUp> {
     super.dispose();
   }
 
-  String passwordValidator(String? value) {
+  String? passwordValidator(String? value) {
     if (value!.isEmpty) {
       return "Password cannot be empty";
     } else if (value.length < 8) {
@@ -41,10 +41,9 @@ class _SignUpState extends State<SignUp> {
       }
       return "Password must be at least 8 characters";
     }
-    return "here $value";
   }
 
-  String confirmPasswordValidator(String? value) {
+  String? confirmPasswordValidator(String? value) {
     if (value!.isEmpty) {
       return "Confirm Password cannot be empty";
     } else if (passwordValidator(value) != "") {
@@ -52,7 +51,6 @@ class _SignUpState extends State<SignUp> {
     } else if (value != _password.text) {
       return "Password does not match";
     }
-    return "herer $value";
   }
 
   bool _isLoading = false;
@@ -118,7 +116,6 @@ class _SignUpState extends State<SignUp> {
                   } else if (!value.contains("@")) {
                     return "Email is invalid";
                   }
-                  return "here $value";
                 },
               ),
               const SizedBox(height: 20),
@@ -197,7 +194,18 @@ class _SignUpState extends State<SignUp> {
                   _isLoading
                       ? const Center(child: CircularProgressIndicator())
                       : CustomFilledButton(
-                          onPressed: isSelected ? firebaseRegister : null,
+                          onPressed: isSelected
+                              ? () {
+                                  try {
+                                    if (formKey.currentState!.validate()) {
+                                      firebaseRegister();
+                                      Navigator.pushNamed(context, "/signin");
+                                    }
+                                  } on Exception catch (e) {
+                                    print(e);
+                                  }
+                                }
+                              : null,
                           buttonText: Constants.registerButton,
                           filledColor: Constants.primaryColor,
                           buttonTextColor: Colors.white,

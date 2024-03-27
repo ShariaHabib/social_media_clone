@@ -17,10 +17,8 @@ class CustomAppbar extends StatelessWidget implements PreferredSizeWidget {
       iconTheme: const IconThemeData(
         color: Constants.secondaryColor,
       ),
-      leading: FloatingActionButton(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        onPressed: () {
+      leading: GestureDetector(
+        onTap: () {
           Navigator.pop(context);
         },
         child: Icon(Icons.arrow_back_ios, color: Constants.secondaryColor),
