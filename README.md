@@ -8,3 +8,6 @@ For running the app manually run these commands to you cmd after cloning the rep
 - flutter pub get
 - flutter run
 
+For dowloading the apk please browse to the folder
+```text build\app\outputs\flutter-apk\app-release.apk```
+- Download the app and ready to go.
