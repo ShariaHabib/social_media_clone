@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social_media_clone/common/constants.dart';
@@ -19,14 +20,26 @@ class _ForgetPasswordState extends State<ForgetPassword> {
   bool isLoading = false;
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  Future<bool> userExists(String email) async {
+    final querySnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .where('email', isEqualTo: email)
+        .get();
+    return querySnapshot.docs.isNotEmpty;
+  }
+
   Future<void> forgotPassword({required String email}) async {
     try {
-      print(email);
+      if (!await userExists(email)) {
+        throw FirebaseAuthException(
+          code: "user-not-found",
+          message: "No user found for this email",
+        );
+      }
       await _firebaseAuth.sendPasswordResetEmail(email: email);
       print("Password reset email sent to $email");
     } on FirebaseAuthException catch (e) {
       print("FirebaseAuthException: ${e.message}");
-
       throw e;
     } catch (e) {
       print("Error: $e");

@@ -61,16 +61,12 @@ class _SignInState extends State<SignIn> {
     }
   }
 
-  Future<void> signInWithGoogle() async {
+  Future<User?> signInWithGoogle() async {
     var user = await SignInGoogle.signInWithGoogle();
     if (user != null) {
-      print("Sign in successful");
+      return user;
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Sign in failed"),
-        ),
-      );
+      throw Exception('Sign in failed');
     }
   }
 
@@ -217,7 +213,7 @@ class _SignInState extends State<SignIn> {
                   },
                   activeColor: Constants.primaryColor,
                 ),
-                Text("Remember me"),
+                const Text("Remember me"),
               ],
             ),
             TextButton(
@@ -236,10 +232,27 @@ class _SignInState extends State<SignIn> {
         const SizedBox(height: 20),
         Center(
           child: ElevatedButton(
-            onPressed: signInWithGoogle,
-            child: Text(
-              "Sign in with Google",
-              style: TextStyle(color: Constants.secondaryColor),
+            onPressed: () async {
+              try {
+                await signInWithGoogle();
+                Navigator.pushNamed(context, '/dashboard');
+              } on Exception catch (e) {
+                print(e.toString());
+                Fluttertoast.showToast(msg: 'Sign in failed');
+              }
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  Icons.g_mobiledata_rounded,
+                  color: Colors.green,
+                ),
+                Text(
+                  "Sign in with Google",
+                  style: TextStyle(color: Constants.secondaryColor),
+                ),
+              ],
             ),
           ),
         ),
